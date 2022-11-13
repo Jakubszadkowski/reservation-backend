@@ -14,13 +14,27 @@ public class User {
     private String email;
     private String phone;
     private String role;
+    private String password;
 
-    public User( String name, String surname, String email, String phone) {
+    public User(String name, String surname, String email, String phone, String password) {
         this.name = name;
         this.surname = surname;
         this.email = email;
         this.phone = phone;
+        this.password = password;
         this.role = "user";
+    }
+//    public User(String name, String surname, String email, String phone, String role, String password) {
+//        this.name = name;
+//        this.surname = surname;
+//        this.email = email;
+//        this.phone = phone;
+//        this.password = password;
+//        this.role = role;
+//    }
+
+    public String getId(){
+        return this.id;
     }
     public String getName() {
         return name;
@@ -60,8 +74,18 @@ public class User {
         this.email = email;
     }
 
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     @Override
     public String toString() {
-        return this.name+" "+this.surname+"ma telefon: "+this.phone;
+        return this.name+" "+this.surname+" ma telefon: "+this.phone+", ID:"+this.getId();
     }
+
+
 }

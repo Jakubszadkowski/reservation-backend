@@ -7,16 +7,18 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping(value = "/user",method = {RequestMethod.GET,RequestMethod.POST})
 public class userController {
     @Autowired
     userRepository repository;
 
-    @PostMapping("/api2")
+    @PostMapping("/createUser")
     public ResponseEntity<User> createUser(@RequestBody User user){
         try{
-            User temp = repository.save(new User(user.getName(),user.getSurname(),user.getEmail(),user.getPhone()));
+            User temp = repository.save(new User(user.getName(),user.getSurname(),user.getEmail(),user.getPhone(), user.getPassword()));
             return new ResponseEntity<>(temp,HttpStatus.CREATED);
 
         }
@@ -24,10 +26,16 @@ public class userController {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    @PostMapping("/api")
+    @PostMapping("/test")
     public String create(){
         try{
-            User temp = repository.save(new User("Kuba","Szadkowski","szad@wp.pl","123456788"));
+            repository.deleteAll();
+            User temp = repository.save(new User("Kuba","Szadkowski","szad@wp.pl","123456788", "password"));
+            repository.save(new User("Michal","Zgagacz","zgagacz@wp.pl","12547893", "password"));
+            repository.save(new User("Marzena","Kwiatkowski","kwiat@wp.pl","789541223", "password"));
+            repository.save(new User("Jakub","Szadkowski","nowak@wp.pl","396258147", "password"));
+            repository.save(new User("Filip","Dada","dada@wp.pl","741852293", "password"));
+            repository.save(new User("Zbyszek","Lamentowicz","lamen@wp.pl","987564333", "password"));
             return temp.toString();
 
         }
@@ -35,13 +43,15 @@ public class userController {
             return e.toString();
         }
     }
-    @GetMapping("/get")
-    public String hello(@RequestParam(value = "name", defaultValue = "World") String name){
+    @GetMapping("/getUserBySurname")
+    public ResponseEntity<List<User>> hello(@RequestBody User surname){
         try{
-            return String.format(repository.findBySurname("Szadkowski").toString());
+            System.out.println(surname);
+            List<User> temp = repository.findBySurname(surname.getSurname());
+            return new ResponseEntity<>(temp,HttpStatus.FOUND);
         }
         catch (Exception e){
-            return e.toString();
+            return new ResponseEntity<>(null,HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
