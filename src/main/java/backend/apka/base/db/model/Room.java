@@ -46,4 +46,8 @@ public class Room {
     public void setAdditionInformation(String additionInformation) {
         this.additionInformation = additionInformation;
     }
+
+    public String getId() {
+        return this.id;
+    }
 }

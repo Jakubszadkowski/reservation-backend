@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "/room",method = {RequestMethod.GET,RequestMethod.POST})
+@RequestMapping(value = "/room",method = {RequestMethod.GET,RequestMethod.POST,RequestMethod.DELETE})
 public class roomController {
     @Autowired
     roomRepository repository;
@@ -25,6 +25,27 @@ public class roomController {
         }
         catch (Exception e){
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @DeleteMapping("/deleteAllRooms")
+    public ResponseEntity<String> deleteAllRooms(){
+        try{
+            repository.deleteAll();
+            return new ResponseEntity<>("Deleted all rooms",HttpStatus.ACCEPTED);
+        }
+        catch (Exception e){
+            return new ResponseEntity<>(e.toString(),HttpStatus.NOT_ACCEPTABLE);
+        }
+    }
+    @DeleteMapping("/deleteRoomById")
+    public ResponseEntity<String> deleteRoomById(@RequestBody Room room){
+        try{
+            repository.deleteById(room.getId());
+            return new ResponseEntity<>("Deleted",HttpStatus.ACCEPTED);
+        }
+        catch (Exception e){
+            return new ResponseEntity<>(e.toString(),HttpStatus.NOT_ACCEPTABLE);
         }
     }
     @GetMapping("/getAllRoomsFromFloor")
