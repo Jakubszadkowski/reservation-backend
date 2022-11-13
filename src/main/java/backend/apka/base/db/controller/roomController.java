@@ -19,6 +19,7 @@ public class roomController {
     @PostMapping("/createRoom")
     public ResponseEntity<Room> createRoom(@RequestBody Room room){
         try{
+            System.out.println();
             Room temp = repository.save(new Room(room.getFloor(),room.getRoomNumber(),room.getAdditionInformation()));
             return new ResponseEntity<>(temp, HttpStatus.CREATED);
 
@@ -27,7 +28,23 @@ public class roomController {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+    @PostMapping("/test")
+    public ResponseEntity<Room> test(){
+        try{
+            Room temp = repository.save(new Room("0","4",""));
+            repository.save(new Room("0","4",""));
+            repository.save(new Room("0","5",""));
+            repository.save(new Room("0","6",""));
+            repository.save(new Room("1","104",""));
+            repository.save(new Room("1","103",""));
+            repository.save(new Room("1","105",""));
+            return new ResponseEntity<>(temp, HttpStatus.CREATED);
 
+        }
+        catch (Exception e){
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
     @DeleteMapping("/deleteAllRooms")
     public ResponseEntity<String> deleteAllRooms(){
         try{
@@ -57,6 +74,16 @@ public class roomController {
         }
         catch (Exception e){
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+    @GetMapping("/getAllRooms")
+    public ResponseEntity<List<Room>> getAllRooms() {
+        try {
+            List<Room> temp = repository.findAll();
+            return new ResponseEntity<>(temp,HttpStatus.ACCEPTED);
+        }
+        catch (Exception e){
+            return new ResponseEntity<>(null,HttpStatus.INTERNAL_SERVER_ERROR)
         }
     }
 

@@ -17,12 +17,6 @@ public class Room {
         this.roomNumber = roomNumber;
         this.additionInformation = additionInformation;
     }
-    public Room(String id,String floor, String roomNumber, String additionInformation) {
-        this.id = id;
-        this.floor = floor;
-        this.roomNumber = roomNumber;
-        this.additionInformation = additionInformation;
-    }
     public String getFloor() {
         return floor;
     }

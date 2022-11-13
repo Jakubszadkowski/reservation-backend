@@ -8,6 +8,6 @@ import java.util.List;
 
 @Repository
 public interface roomRepository extends MongoRepository<Room,String> {
-    public List<Room> findByFloor(String floor);
+    public List<Room> findByFloor (String floor);
     public Room findByRoomNumber (String roomNumber);
 }
