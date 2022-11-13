@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "/user",method = {RequestMethod.GET,RequestMethod.POST})
+@RequestMapping(value = "/user",method = {RequestMethod.GET,RequestMethod.POST,RequestMethod.DELETE})
 public class userController {
     @Autowired
     userRepository repository;
@@ -24,6 +24,26 @@ public class userController {
         }
         catch (Exception e){
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+    @DeleteMapping("/deleteAllUsers")
+    public ResponseEntity<String> deleteAllUsers(){
+        try{
+            repository.deleteAll();
+           return new ResponseEntity<>("Done",HttpStatus.ACCEPTED);
+        }
+        catch (Exception e){
+            return new ResponseEntity<>(null,HttpStatus.NOT_ACCEPTABLE);
+        }
+    }
+    @DeleteMapping("/deleteUserById")
+    public ResponseEntity<String> deleteAllUsers(@RequestBody User user){
+        try{
+            repository.deleteById(user.getId());
+            return new ResponseEntity<>("Done",HttpStatus.ACCEPTED);
+        }
+        catch (Exception e){
+            return new ResponseEntity<>(null,HttpStatus.NOT_ACCEPTABLE);
         }
     }
     @PostMapping("/test")
@@ -44,10 +64,29 @@ public class userController {
         }
     }
     @GetMapping("/getUserBySurname")
-    public ResponseEntity<List<User>> hello(@RequestBody User surname){
+    public ResponseEntity<List<User>> getUserBySurname(@RequestBody User surname){
         try{
-            System.out.println(surname);
             List<User> temp = repository.findBySurname(surname.getSurname());
+            return new ResponseEntity<>(temp,HttpStatus.FOUND);
+        }
+        catch (Exception e){
+            return new ResponseEntity<>(null,HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+    @GetMapping("/getUserByEmail")
+    public ResponseEntity<User> getUserByEmail(@RequestBody User surname){
+        try{
+            User temp = repository.findByEmail(surname.getEmail());
+            return new ResponseEntity<>(temp,HttpStatus.FOUND);
+        }
+        catch (Exception e){
+            return new ResponseEntity<>(null,HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+    @GetMapping("/getAllUsers")
+    public ResponseEntity<List<User>> getUserByEmail(){
+        try{
+            List<User> temp = repository.findAll();
             return new ResponseEntity<>(temp,HttpStatus.FOUND);
         }
         catch (Exception e){
