@@ -1,29 +1,49 @@
 package backend.apka.base.db.controller;
 
-import backend.apka.base.db.model.Booking;
-import backend.apka.base.db.model.Room;
-import backend.apka.base.db.model.User;
-import backend.apka.base.db.repository.bookingRepository;
+import backend.apka.base.db.model.*;
+import backend.apka.base.db.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Date;
 
 @RestController
 @RequestMapping(value = "/booking",method = {RequestMethod.GET,RequestMethod.POST,RequestMethod.DELETE})
 public class bookingController {
     @Autowired
     bookingRepository repository;
+    @Autowired
+    userRepository userRepository;
+    @Autowired
+    roomRepository roomRepository;
+
     @PostMapping("/createBooking")
     public ResponseEntity<Booking> createUser(@RequestBody Booking booking){
         try{
-            Booking temp = repository.save(new Booking(booking.getUser(),booking.getRoom(),booking.getDate(),booking.getTimeCount()));
+            Booking temp = repository.save(new Booking(booking.getUserId(),booking.getRoomId(),booking.getDate(),booking.getTimeCount()));
             return new ResponseEntity<>(temp, HttpStatus.CREATED);
 
         }
         catch (Exception e){
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
+    }
+    @PostMapping("/test")
+    public ResponseEntity<String> test(){
+        try{
+            repository.save(new Booking("nowak@wp.pl","105",new Date(2022,4,13,12,30),2));
+            repository.save(new Booking("nowak@wp.pl","103",new Date(2022,4,13,12,30),2));
+            repository.save(new Booking("nowak@wp.pl","104",new Date(2022,4,13,12,30),2));
+            repository.save(new Booking("nowak@wp.pl","5",new Date(2022, 4,13,12,30),2));
+            repository.save(new Booking("nowak@wp.pl","4",new Date(2022,4,13,12,30),2));
+            return new ResponseEntity<>("ok",HttpStatus.ACCEPTED);
+        }
+        catch (Exception e){
+            return new ResponseEntity<>(null,HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
     }
     @DeleteMapping("/deleteAllBookings")
     public ResponseEntity<String> deleteAllBookings(){

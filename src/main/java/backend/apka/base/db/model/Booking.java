@@ -10,32 +10,32 @@ public class Booking {
     @Id
     private String id;
 
-    private User user;
-    private Room room;
+    private String userId;
+    private String roomId;
     private Date date;
     private int timeCount;
 
-    public Booking(User user, Room room, Date date, int timeCount) {
-        this.user = user;
-        this.room = room;
+    public Booking(String userId, String roomId, Date date, int timeCount) {
+        this.userId = userId;
+        this.roomId = roomId;
         this.date = date;
         this.timeCount = timeCount;
     }
 
-    public User getUser() {
-        return user;
+    public String getUserId() {
+        return userId;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setUser(String userId) {
+        this.userId = userId;
     }
 
-    public Room getRoom() {
-        return room;
+    public String getRoomId() {
+        return roomId;
     }
 
-    public void setRoom(Room room) {
-        this.room = room;
+    public void setRoom(String roomId) {
+        this.roomId = roomId;
     }
 
     public Date getDate() {
