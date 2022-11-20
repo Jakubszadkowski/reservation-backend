@@ -10,7 +10,7 @@ import java.util.Date;
 import java.util.List;
 
 @Repository
-public interface bookingRepository extends MongoRepository<Booking,String> {
+public interface BookingRepository extends MongoRepository<Booking,String> {
     public List<Booking> findByUser(User user);
     public List<Booking> findByRoom(Room room);
     public List<Booking> findByDate(Date date);

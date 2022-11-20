@@ -2,7 +2,7 @@ package backend.apka.base.db.controller;
 
 
 import backend.apka.base.db.model.Room;
-import backend.apka.base.db.repository.roomRepository;
+import backend.apka.base.db.repository.RoomRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,9 +12,9 @@ import java.util.List;
 
 @RestController
 @RequestMapping(value = "/room",method = {RequestMethod.GET,RequestMethod.POST,RequestMethod.DELETE})
-public class roomController {
+public class RoomController {
     @Autowired
-    roomRepository repository;
+    RoomRepository repository;
 
     @PostMapping("/createRoom")
     public ResponseEntity<Room> createRoom(@RequestBody Room room){

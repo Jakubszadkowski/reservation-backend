@@ -11,13 +11,13 @@ import java.util.Date;
 
 @RestController
 @RequestMapping(value = "/booking",method = {RequestMethod.GET,RequestMethod.POST,RequestMethod.DELETE})
-public class bookingController {
+public class BookingController {
     @Autowired
-    bookingRepository repository;
+    BookingRepository repository;
     @Autowired
-    userRepository userRepository;
+    UserRepository userRepository;
     @Autowired
-    roomRepository roomRepository;
+    RoomRepository roomRepository;
 
     @PostMapping("/createBooking")
     public ResponseEntity<Booking> createUser(@RequestBody Booking booking){

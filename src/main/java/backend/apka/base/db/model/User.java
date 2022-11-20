@@ -3,7 +3,6 @@ package backend.apka.base.db.model;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
-
 @Document(collection = "user")
 public class User {
     @Id
@@ -23,15 +22,9 @@ public class User {
         this.phone = phone;
         this.password = password;
         this.role = "user";
+
     }
-//    public User(String name, String surname, String email, String phone, String role, String password) {
-//        this.name = name;
-//        this.surname = surname;
-//        this.email = email;
-//        this.phone = phone;
-//        this.password = password;
-//        this.role = role;
-//    }
+
 
     public String getId(){
         return this.id;
