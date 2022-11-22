@@ -3,10 +3,11 @@ package backend.apka.base.db.model;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+
 @Document(collection = "user")
 public class User {
     @Id
-    private String id;
+    private String userId;
 
     private String name;
     private String surname;
@@ -26,8 +27,8 @@ public class User {
     }
 
 
-    public String getId(){
-        return this.id;
+    public String getUserId(){
+        return this.userId;
     }
     public String getName() {
         return name;
@@ -77,7 +78,7 @@ public class User {
 
     @Override
     public String toString() {
-        return this.name+" "+this.surname+" ma telefon: "+this.phone+", ID:"+this.getId();
+        return this.name+" "+this.surname+" ma telefon: "+this.phone+", ID:"+this.getUserId();
     }
 
 

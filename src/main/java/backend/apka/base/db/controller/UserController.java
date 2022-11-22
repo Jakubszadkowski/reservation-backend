@@ -7,10 +7,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.LinkedList;
 import java.util.List;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = "http://localhost:4200",allowedHeaders = "content-type")
 @RequestMapping(value = "/user",method = {RequestMethod.GET,RequestMethod.POST,RequestMethod.DELETE,RequestMethod.PATCH})
 public class UserController {
     @Autowired
@@ -46,7 +47,7 @@ public class UserController {
     @DeleteMapping("/deleteUserById")
     public ResponseEntity<String> deleteAllUsers(@RequestBody User user){
         try{
-            repository.deleteById(user.getId());
+            repository.deleteById(user.getUserId());
             return new ResponseEntity<>("Done",HttpStatus.ACCEPTED);
         }
         catch (Exception e){
@@ -143,6 +144,20 @@ public class UserController {
             temp.setName(user.getName());
             repository.save(temp);
             return new ResponseEntity<>(temp, HttpStatus.ACCEPTED);
+        }
+        catch (Exception e){
+            return new ResponseEntity<>(null,HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+    @GetMapping("/getAllSurnames")
+    public ResponseEntity<List<User>> getAllSurnames(){
+        try{
+            List<User> list = repository.findAll();
+            List<String> stringList = new LinkedList<>();
+            for(User user:list){
+                stringList.add(user.getSurname());
+            }
+            return new ResponseEntity<>(list,HttpStatus.ACCEPTED);
         }
         catch (Exception e){
             return new ResponseEntity<>(null,HttpStatus.INTERNAL_SERVER_ERROR);
