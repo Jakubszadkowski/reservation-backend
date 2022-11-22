@@ -8,7 +8,7 @@ import java.util.Date;
 @Document(collection = "booking")
 public class Booking {
     @Id
-    private String id;
+    private String bookingId;
 
     private String userId;
     private String roomId;
@@ -54,7 +54,7 @@ public class Booking {
         this.timeCount = timeCount;
     }
 
-    public String getId() {
-        return this.id;
+    public String getBookingId() {
+        return this.bookingId;
     }
 }
