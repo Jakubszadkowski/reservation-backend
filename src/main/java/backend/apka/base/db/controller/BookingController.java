@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Date;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:4200",allowedHeaders = "content-type")
 @RequestMapping(value = "/booking",method = {RequestMethod.GET,RequestMethod.POST,RequestMethod.DELETE})
 public class BookingController {
     @Autowired
@@ -58,7 +59,7 @@ public class BookingController {
     @DeleteMapping("/deleteBookingById")
     public ResponseEntity<String> deleteBookingById(@RequestBody Booking booking){
         try{
-            repository.deleteById(booking.getId());
+            repository.deleteById(booking.getBookingId());
             return new ResponseEntity<>("Deleted",HttpStatus.ACCEPTED);
         }
         catch (Exception e){
