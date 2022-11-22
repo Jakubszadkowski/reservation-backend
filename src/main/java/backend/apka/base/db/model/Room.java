@@ -6,7 +6,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Document(collection = "room")
 public class Room {
     @Id
-    private String id;
+    private String roomId;
 
     private String floor;
     private String roomNumber;
@@ -41,7 +41,7 @@ public class Room {
         this.additionInformation = additionInformation;
     }
 
-    public String getId() {
-        return this.id;
+    public String getRoomId() {
+        return this.roomId;
     }
 }
