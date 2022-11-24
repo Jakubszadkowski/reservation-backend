@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:4200",allowedHeaders = "content-type")
+@CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping(value = "/session",method = {RequestMethod.GET,RequestMethod.POST,RequestMethod.DELETE,RequestMethod.PATCH})
 public class SessionController {
     @Autowired
@@ -23,39 +23,41 @@ public class SessionController {
 
 
     @PostMapping("/auth")
-    public ResponseEntity<String> auth(@RequestBody User user){
+    public ResponseEntity<Session> auth(@RequestBody User user){
         try{
-             User temp = userRepository.findByEmail(user.getEmail());
-             if(temp==null){
-                 return new ResponseEntity<>("Błędne dane",HttpStatus.NOT_FOUND);
-             }
-             if(user.getPassword().equals(temp.getPassword())){
-                 sessionRepository.save(new Session(temp.getUserId()));
-                 return new ResponseEntity<>("Zalogowano",HttpStatus.ACCEPTED);
-             }
-             else
-                 return new ResponseEntity<>("Błędne dane",HttpStatus.NOT_FOUND);
+
+            User temp = userRepository.findByEmail(user.getEmail());
+            if(temp==null){
+                return new ResponseEntity<>(null,HttpStatus.NOT_FOUND);
+            }
+            if(user.getPassword().equals(temp.getPassword())){
+                Session newSession = new Session(temp);
+                sessionRepository.save(newSession);
+                return new ResponseEntity<>(newSession,HttpStatus.OK);
+            }
+            else
+                return new ResponseEntity<>(null,HttpStatus.NOT_FOUND);
         }
         catch (Exception e){
-            return new ResponseEntity<>(e.toString(), HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
     @GetMapping("/getSessionByUserId")
-    public ResponseEntity<Session> getSessionByUserId(@RequestBody User user){
+    public ResponseEntity<List<Session>> getSessionByUserId(@RequestBody User user){
         try{
-            Session temp = sessionRepository.findByUserId(user.getUserId());
+            List<Session> temp = sessionRepository.findByUserUserId(user.getUserId());
             return new ResponseEntity<>(temp,HttpStatus.FOUND);
         }
         catch (Exception e){
             return new ResponseEntity<>(null,HttpStatus.NOT_FOUND);
         }
     }
-    @DeleteMapping("/logout")
+    @PostMapping("/Logout")
     public ResponseEntity<String> logout(@RequestBody User user){
         try{
-            Session temp = sessionRepository.findByUserId(user.getUserId());
-            sessionRepository.delete(temp);
-            return new ResponseEntity<>("Done",HttpStatus.ACCEPTED);
+            List<Session> temp = sessionRepository.findByUserUserId(user.getUserId());
+            sessionRepository.deleteAll(temp);
+            return new ResponseEntity<>("Done",HttpStatus.OK);
         }catch (Exception e){
             return new ResponseEntity<>(null,HttpStatus.INTERNAL_SERVER_ERROR);
         }

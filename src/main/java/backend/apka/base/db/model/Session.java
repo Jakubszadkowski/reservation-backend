@@ -1,7 +1,6 @@
 package backend.apka.base.db.model;
 
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -10,20 +9,20 @@ public class Session {
     @Id
     private String sessionId;
 
-    private String userId;
+    private User user;
 
-    public Session(String userId){
-        this.userId = userId;
+    public Session(User user){
+        this.user = user;
     }
 
-    public String getUserId() {
-        return this.userId;
+    public User getUser() {
+        return this.user;
     }
     public String getSessionId(){
         return this.sessionId;
     }
 
-    public void setUserId(String userId) {
-        this.userId = userId;
+    public void setUserId(User user) {
+        this.user = user;
     }
 }
