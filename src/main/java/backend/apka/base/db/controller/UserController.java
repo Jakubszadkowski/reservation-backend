@@ -163,4 +163,22 @@ public class UserController {
             return new ResponseEntity<>(null,HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+    @PatchMapping("/patchUser")
+    public ResponseEntity<User> patchUser(@RequestBody User user){
+        try{
+            User temp = repository.findByUserId(user.getUserId());
+            temp.setName(user.getName());
+            temp.setSurname(user.getSurname());
+            temp.setPhone(user.getPhone());
+            temp.setEmail(user.getEmail());
+
+
+
+            repository.save(temp);
+            return new ResponseEntity<>(temp, HttpStatus.ACCEPTED);
+        }
+        catch (Exception e){
+            return new ResponseEntity<>(null,HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }
