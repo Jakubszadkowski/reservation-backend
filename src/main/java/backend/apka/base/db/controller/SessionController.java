@@ -52,12 +52,35 @@ public class SessionController {
             return new ResponseEntity<>(null,HttpStatus.NOT_FOUND);
         }
     }
-    @PostMapping("/Logout")
+    @PostMapping("/logout")
     public ResponseEntity<String> logout(@RequestBody User user){
+        System.out.println("hmm");
         try{
             List<Session> temp = sessionRepository.findByUserUserId(user.getUserId());
             sessionRepository.deleteAll(temp);
             return new ResponseEntity<>("Done",HttpStatus.OK);
+        }catch (Exception e){
+            return new ResponseEntity<>(null,HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+    @PostMapping("/wylogowanie")
+    public ResponseEntity<String> wylogowanie(@RequestBody User user){
+        System.out.println(user);
+        try{
+            List<Session> temp = sessionRepository.findByUserUserId(user.getUserId());
+            sessionRepository.deleteAll(temp);
+            return new ResponseEntity<>("Done",HttpStatus.OK);
+        }catch (Exception e){
+            return new ResponseEntity<>(null,HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+    @PostMapping("/wylogowanie2")
+    public ResponseEntity<Session> wylogowanie2(@RequestBody User user){
+        System.out.println(user);
+        try{
+            List<Session> temp = sessionRepository.findByUserEmail(user.getEmail());
+            sessionRepository.deleteAll(temp);
+            return new ResponseEntity<>(null,HttpStatus.OK);
         }catch (Exception e){
             return new ResponseEntity<>(null,HttpStatus.INTERNAL_SERVER_ERROR);
         }
