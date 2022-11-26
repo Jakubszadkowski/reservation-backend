@@ -12,10 +12,10 @@ public class Booking {
 
     private String userId;
     private String roomId;
-    private Date date;
+    private String date;
     private int timeCount;
 
-    public Booking(String userId, String roomId, Date date, int timeCount) {
+    public Booking(String userId, String roomId, String date, int timeCount) {
         this.userId = userId;
         this.roomId = roomId;
         this.date = date;
@@ -38,11 +38,11 @@ public class Booking {
         this.roomId = roomId;
     }
 
-    public Date getDate() {
+    public String getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(String date) {
         this.date = date;
     }
 

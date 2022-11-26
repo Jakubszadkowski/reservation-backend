@@ -10,4 +10,5 @@ import java.util.List;
 public interface RoomRepository extends MongoRepository<Room,String> {
     public List<Room> findByFloor (String floor);
     public Room findByRoomNumber (String roomNumber);
+    public Room findByRoomId (String roomId);
 }

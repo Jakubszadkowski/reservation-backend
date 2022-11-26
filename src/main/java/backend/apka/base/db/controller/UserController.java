@@ -11,7 +11,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:4200",allowedHeaders = "content-type")
+@CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping(value = "/user",method = {RequestMethod.GET,RequestMethod.POST,RequestMethod.DELETE,RequestMethod.PATCH})
 public class UserController {
     @Autowired
@@ -44,31 +44,31 @@ public class UserController {
             return new ResponseEntity<>(null,HttpStatus.NOT_ACCEPTABLE);
         }
     }
-    @DeleteMapping("/deleteUserById")
-    public ResponseEntity<String> deleteAllUsers(@RequestBody User user){
+    @PostMapping("/deleteUserById")
+    public ResponseEntity<User> deleteAllUsers(@RequestBody User user){
         try{
             repository.deleteById(user.getUserId());
-            return new ResponseEntity<>("Done",HttpStatus.ACCEPTED);
+            return new ResponseEntity<>(null,HttpStatus.ACCEPTED);
         }
         catch (Exception e){
             return new ResponseEntity<>(null,HttpStatus.NOT_ACCEPTABLE);
         }
     }
     @PostMapping("/test")
-    public String test(){
+    public ResponseEntity<String> test(){
         try{
             repository.deleteAll();
-            User temp = repository.save(new User("Kuba","Szadkowski","szad@wp.pl","123456788", "password"));
-            repository.save(new User("Michal","Zgagacz","zgagacz@wp.pl","12547893", "password"));
-            repository.save(new User("Marzena","Kwiatkowski","kwiat@wp.pl","789541223", "password"));
-            repository.save(new User("Jakub","Szadkowski","nowak@wp.pl","396258147", "password"));
-            repository.save(new User("Filip","Dada","dada@wp.pl","741852293", "password"));
-            repository.save(new User("Zbyszek","Lamentowicz","lamen@wp.pl","987564333", "password"));
-            return temp.getPassword();
+            User temp = repository.save(new User("Kuba","Szadkowski","kszadkowski@wp.pl","123456789", "password"));
+            repository.save(new User("Michal","Zgagacz","mzgagacz@wp.pl","125478923", "password"));
+            repository.save(new User("Marzena","Kwiatkowska","mkwiatkowska@wp.pl","789541223", "password"));
+            repository.save(new User("Jakub","Kucharski","jkucharski@wp.pl","396258147", "password"));
+            repository.save(new User("Filip","Nowak","fnowak@wp.pl","741852293", "password"));
+            repository.save(new User("Adam","Pawlak","apawlak@wp.pl","987564333", "password"));
+            return new ResponseEntity<>("ok",HttpStatus.OK);
 
         }
         catch (Exception e){
-            return e.toString();
+            return new ResponseEntity<>(e.toString(),HttpStatus.OK);
         }
     }
     @GetMapping("/getUserBySurname")
@@ -171,9 +171,6 @@ public class UserController {
             temp.setSurname(user.getSurname());
             temp.setPhone(user.getPhone());
             temp.setEmail(user.getEmail());
-
-
-
             repository.save(temp);
             return new ResponseEntity<>(temp, HttpStatus.ACCEPTED);
         }

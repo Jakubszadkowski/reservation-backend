@@ -30,20 +30,25 @@ public class RoomController {
         }
     }
     @PostMapping("/test")
-    public ResponseEntity<Room> test(){
+    public ResponseEntity<String> test(){
         try{
-            Room temp = repository.save(new Room("0","4",""));
-            repository.save(new Room("0","4",""));
-            repository.save(new Room("0","5",""));
-            repository.save(new Room("0","6",""));
-            repository.save(new Room("1","104",""));
-            repository.save(new Room("1","103",""));
-            repository.save(new Room("1","105",""));
-            return new ResponseEntity<>(temp, HttpStatus.CREATED);
+            Room temp = repository.save(new Room("0","4","Sala posiada 16 stanowisk z OS Windows oraz narzędziami do programowania."));
+            repository.save(new Room("0","4","Sala posiada 16 stanowisk z OS Windows oraz narzędziami do grafiki."));
+            repository.save(new Room("0","5","Sala posiada 14 stanowisk z OS Windows oraz narzędziami do programowania."));
+            repository.save(new Room("0","6","Sala posiada 20 stanowisk z OS Windows oraz narzędziami do programowania."));
+            repository.save(new Room("1","101","Sala posiada 16 stanowisk z komputerami Mac oraz narzędziami do programowania."));
+            repository.save(new Room("1","102","Sala posiada 16 stanowisk z komputerami Mac oraz narzędziami do grafiki"));
+            repository.save(new Room("1","103","Sala posiada 16 biurek dwuosobowych, tablice interaktywną oraz tablicę na trójnogu."));
+            repository.save(new Room("1","104","Sala posiada 16 biurek dwuosobowych, tablice interaktywną."));
+            repository.save(new Room("2","201","Sala posiada 16 biurek dwuosobowych, tablice interaktywną"));
+            repository.save(new Room("2","202","Sala posiada 16 stanowisk pomiarowych."));
+            repository.save(new Room("2","203","Sala posiada 10 stanowisk do podstaw fizyki"));
+            repository.save(new Room("2","204","Aula na 200 osób."));
+            return new ResponseEntity<>("Ok", HttpStatus.CREATED);
 
         }
         catch (Exception e){
-            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(e.toString(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
     @DeleteMapping("/deleteAllRooms")
