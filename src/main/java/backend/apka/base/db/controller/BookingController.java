@@ -7,13 +7,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.List;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:4200",allowedHeaders = "content-type")
+@CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping(value = "/booking",method = {RequestMethod.GET,RequestMethod.POST,RequestMethod.DELETE})
 public class BookingController {
     @Autowired
@@ -26,21 +23,23 @@ public class BookingController {
     @PostMapping("/createBooking")
     public ResponseEntity<Booking> createBooking(@RequestBody Booking booking){
         try{
+            User user;
+            Room room;
             try{
-                Room room = roomRepository.findByRoomId(booking.getRoomId());
+                room = roomRepository.findByRoomId(booking.getRoom().getRoomId());
                 room.getRoomId();
             }
             catch(Exception e){
                 return new ResponseEntity<>(null,HttpStatus.NOT_FOUND);
             }
             try{
-                User user = userRepository.findByUserId(booking.getUserId());
+                user = userRepository.findByUserId(booking.getUser().getUserId());
                 user.getUserId();
             }
             catch(Exception e){
                 return new ResponseEntity<>(null,HttpStatus.NOT_FOUND);
             }
-            Booking temp = repository.save(new Booking(booking.getUserId(),booking.getRoomId(),booking.getDate(),booking.getTimeCount()));
+            Booking temp = repository.save(new Booking(user,room,booking.getDay(), booking.getMonth(), booking.getYear(), booking.getStartTime(),booking.getTimeCount()));
             return new ResponseEntity<>(temp, HttpStatus.CREATED);
 
         }
@@ -51,16 +50,37 @@ public class BookingController {
     @PostMapping("/test")
     public ResponseEntity<String> test(){
         try{
-            repository.save(new Booking("63822047e89e17268501cc37","105","23/11/2022 10:15",2));
-            repository.save(new Booking("63822047e89e17268501cc39","103","24/11/2022 12:15",2));
-            repository.save(new Booking("63822047e89e17268501cc3c","104","25/11/2022 10:15",2));
-            repository.save(new Booking("63822047e89e17268501cc3c","5","22/11/2022 8:00",2));
-            repository.save(new Booking("63822047e89e17268501cc3c","4","22/11/2022 10:15",2));
-            repository.save(new Booking("63822047e89e17268501cc37","5","22/11/2022 8:00",2));
-            repository.save(new Booking("63822047e89e17268501cc39","4","22/11/2022 10:15",2));
+            User user = userRepository.findByUserId("63850d31b3934942452d9b4b");
+            Room room = roomRepository.findByRoomNumber("102");
+            repository.save(new Booking(user,room,"23","11","2022","10:15",2));
+
+            user = userRepository.findByUserId("63850d31b3934942452d9b4b");
+            room = roomRepository.findByRoomNumber("103");
+            repository.save(new Booking(user,room,"24","11","2022","12:15",2));
+
+            user = userRepository.findByUserId("63850d31b3934942452d9b4b");
+            room = roomRepository.findByRoomNumber("104");
+            repository.save(new Booking(user,room,"25","11","2022","10:15",2));
+
+            user = userRepository.findByUserId("63850d31b3934942452d9b4c");
+            room = roomRepository.findByRoomNumber("5");
+            repository.save(new Booking(user,room,"22","11","2022","8:00",2));
+
+            user = userRepository.findByUserId("63850d31b3934942452d9b4c");
+            room = roomRepository.findByRoomNumber("4");
+            repository.save(new Booking(user,room,"22","11","2022","10:15",2));
+
+            user = userRepository.findByUserId("63850d31b3934942452d9b4d");
+            room = roomRepository.findByRoomNumber("203");
+            repository.save(new Booking(user,room,"22","11","2022","8:00",2));
+
+            user = userRepository.findByUserId("63850d31b3934942452d9b4e");
+            room = roomRepository.findByRoomNumber("204");
+            repository.save(new Booking(user,room,"22","11","2022","10:15",2));
             return new ResponseEntity<>("ok",HttpStatus.ACCEPTED);
         }
         catch (Exception e){
+            System.out.println(e);
             return new ResponseEntity<>(null,HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
@@ -97,7 +117,8 @@ public class BookingController {
     @GetMapping("/getAllUserBookings")
     public ResponseEntity<List<Booking>> getAllUserBookings(@RequestBody User user){
         try{
-            return new ResponseEntity<>(repository.findByUserId(user.getUserId()),HttpStatus.FOUND);
+            List<Booking> temp = repository.findByUserUserId(user.getUserId());
+            return new ResponseEntity<>(temp,HttpStatus.OK);
         }
         catch (Exception e){
             return new ResponseEntity<>(null,HttpStatus.NOT_FOUND);

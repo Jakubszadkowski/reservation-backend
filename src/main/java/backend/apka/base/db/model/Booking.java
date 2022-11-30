@@ -3,47 +3,45 @@ package backend.apka.base.db.model;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.util.Date;
 
 @Document(collection = "booking")
 public class Booking {
     @Id
     private String bookingId;
 
-    private String userId;
-    private String roomId;
-    private String date;
+    private User user;
+    private Room room;
+
+    private String day;
+    private String month;
+    private String year;
+    private String startTime;
     private int timeCount;
 
-    public Booking(String userId, String roomId, String date, int timeCount) {
-        this.userId = userId;
-        this.roomId = roomId;
-        this.date = date;
+    public Booking(User user, Room room, String day, String month, String year, String startTime, int timeCount) {
+        this.user = user;
+        this.room = room;
+        this.day = day;
+        this.month = month;
+        this.year = year;
+        this.startTime = startTime;
         this.timeCount = timeCount;
     }
 
-    public String getUserId() {
-        return userId;
+    public User getUser() {
+        return user;
     }
 
-    public void setUser(String userId) {
-        this.userId = userId;
+    public void setUser(User user) {
+        this.user = user;
     }
 
-    public String getRoomId() {
-        return roomId;
+    public Room getRoom() {
+        return room;
     }
 
-    public void setRoom(String roomId) {
-        this.roomId = roomId;
-    }
-
-    public String getDate() {
-        return date;
-    }
-
-    public void setDate(String date) {
-        this.date = date;
+    public void setRoom(Room room) {
+        this.room = room;
     }
 
     public int getTimeCount() {
@@ -56,5 +54,37 @@ public class Booking {
 
     public String getBookingId() {
         return this.bookingId;
+    }
+
+    public String getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(String startTime) {
+        this.startTime = startTime;
+    }
+
+    public String getYear() {
+        return year;
+    }
+
+    public void setYear(String year) {
+        this.year = year;
+    }
+
+    public String getMonth() {
+        return month;
+    }
+
+    public void setMonth(String month) {
+        this.month = month;
+    }
+
+    public String getDay() {
+        return day;
+    }
+
+    public void setDay(String day) {
+        this.day = day;
     }
 }
