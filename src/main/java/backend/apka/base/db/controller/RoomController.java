@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:4200",allowedHeaders = "content-type")
+@CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping(value = "/room",method = {RequestMethod.GET,RequestMethod.POST,RequestMethod.DELETE})
 public class RoomController {
     @Autowired
@@ -20,7 +20,6 @@ public class RoomController {
     @PostMapping("/createRoom")
     public ResponseEntity<Room> createRoom(@RequestBody Room room){
         try{
-            System.out.println();
             Room temp = repository.save(new Room(room.getFloor(),room.getRoomNumber(),room.getAdditionInformation()));
             return new ResponseEntity<>(temp, HttpStatus.CREATED);
 
@@ -32,7 +31,7 @@ public class RoomController {
     @PostMapping("/test")
     public ResponseEntity<String> test(){
         try{
-            Room temp = repository.save(new Room("0","4","Sala posiada 16 stanowisk z OS Windows oraz narzędziami do programowania."));
+            Room temp = repository.save(new Room("0","3","Sala posiada 16 stanowisk z OS Windows oraz narzędziami do programowania."));
             repository.save(new Room("0","4","Sala posiada 16 stanowisk z OS Windows oraz narzędziami do grafiki."));
             repository.save(new Room("0","5","Sala posiada 14 stanowisk z OS Windows oraz narzędziami do programowania."));
             repository.save(new Room("0","6","Sala posiada 20 stanowisk z OS Windows oraz narzędziami do programowania."));
@@ -55,7 +54,7 @@ public class RoomController {
     public ResponseEntity<String> deleteAllRooms(){
         try{
             repository.deleteAll();
-            return new ResponseEntity<>("Deleted all rooms",HttpStatus.ACCEPTED);
+            return new ResponseEntity<>("Deleted all rooms",HttpStatus.OK);
         }
         catch (Exception e){
             return new ResponseEntity<>(e.toString(),HttpStatus.NOT_ACCEPTABLE);
@@ -65,7 +64,7 @@ public class RoomController {
     public ResponseEntity<String> deleteRoomById(@RequestBody Room room){
         try{
             repository.deleteById(room.getRoomId());
-            return new ResponseEntity<>("Deleted",HttpStatus.ACCEPTED);
+            return new ResponseEntity<>("Deleted",HttpStatus.OK);
         }
         catch (Exception e){
             return new ResponseEntity<>(e.toString(),HttpStatus.NOT_ACCEPTABLE);
@@ -86,11 +85,19 @@ public class RoomController {
     public ResponseEntity<List<Room>> getAllRooms() {
         try {
             List<Room> temp = repository.findAll();
-            return new ResponseEntity<>(temp,HttpStatus.ACCEPTED);
+            return new ResponseEntity<>(temp,HttpStatus.OK);
         }
         catch (Exception e){
             return new ResponseEntity<>(null,HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-
+    @GetMapping("/getRoomById")
+    public ResponseEntity<Room> getRoomById(String roomId){
+        try{
+            return new ResponseEntity<>(repository.findByRoomId(roomId),HttpStatus.OK);
+        }
+        catch (Exception e){
+            return new ResponseEntity<>(null,HttpStatus.NOT_FOUND);
+        }
+    }
 }

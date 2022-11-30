@@ -46,37 +46,14 @@ public class SessionController {
     public ResponseEntity<List<Session>> getSessionByUserId(@RequestBody User user){
         try{
             List<Session> temp = sessionRepository.findByUserUserId(user.getUserId());
-            return new ResponseEntity<>(temp,HttpStatus.FOUND);
+            return new ResponseEntity<>(temp,HttpStatus.OK);
         }
         catch (Exception e){
             return new ResponseEntity<>(null,HttpStatus.NOT_FOUND);
         }
     }
     @PostMapping("/logout")
-    public ResponseEntity<String> logout(@RequestBody User user){
-        System.out.println("hmm");
-        try{
-            List<Session> temp = sessionRepository.findByUserUserId(user.getUserId());
-            sessionRepository.deleteAll(temp);
-            return new ResponseEntity<>("Done",HttpStatus.OK);
-        }catch (Exception e){
-            return new ResponseEntity<>(null,HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
-    @PostMapping("/wylogowanie")
     public ResponseEntity<String> wylogowanie(@RequestBody User user){
-        System.out.println(user);
-        try{
-            List<Session> temp = sessionRepository.findByUserUserId(user.getUserId());
-            sessionRepository.deleteAll(temp);
-            return new ResponseEntity<>("Done",HttpStatus.OK);
-        }catch (Exception e){
-            return new ResponseEntity<>(null,HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
-    @PostMapping("/wylogowanie2")
-    public ResponseEntity<Session> wylogowanie2(@RequestBody User user){
-        System.out.println(user);
         try{
             List<Session> temp = sessionRepository.findByUserEmail(user.getEmail());
             sessionRepository.deleteAll(temp);
@@ -85,11 +62,12 @@ public class SessionController {
             return new ResponseEntity<>(null,HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
     @GetMapping("/getAllSessions")
     public ResponseEntity<List<Session>> getAllSessions(){
         try {
             List<Session> list = sessionRepository.findAll();
-            return new ResponseEntity<>(list,HttpStatus.FOUND);
+            return new ResponseEntity<>(list,HttpStatus.OK);
         }
         catch (Exception e){
             return new ResponseEntity<>(null,HttpStatus.NOT_FOUND);
@@ -99,7 +77,7 @@ public class SessionController {
     public ResponseEntity<String> deleteAllSessions(){
         try {
             sessionRepository.deleteAll();
-            return new ResponseEntity<>("Done",HttpStatus.FOUND);
+            return new ResponseEntity<>("Done",HttpStatus.OK);
         }
         catch (Exception e){
             return new ResponseEntity<>(null,HttpStatus.NOT_FOUND);

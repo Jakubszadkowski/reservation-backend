@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.websocket.server.PathParam;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -23,8 +24,8 @@ public class UserController {
             User test = repository.findByEmail(user.getEmail());
             if(test==null){
 
-                User temp = repository.save(new User(user.getName(),user.getSurname(),user.getEmail(),user.getPhone(), user.getPassword()));
-                return new ResponseEntity<>(temp,HttpStatus.CREATED);
+                User temp = repository.save(new User(user.getTitle(),user.getName(),user.getSurname(),user.getEmail(),user.getPhone(), user.getPassword()));
+                return new ResponseEntity<>(temp,HttpStatus.OK);
             }
             return new ResponseEntity<>(null,HttpStatus.BAD_REQUEST);
 
@@ -48,7 +49,7 @@ public class UserController {
     public ResponseEntity<User> deleteAllUsers(@RequestBody User user){
         try{
             repository.deleteById(user.getUserId());
-            return new ResponseEntity<>(null,HttpStatus.ACCEPTED);
+            return new ResponseEntity<>(null,HttpStatus.OK);
         }
         catch (Exception e){
             return new ResponseEntity<>(null,HttpStatus.NOT_ACCEPTABLE);
@@ -58,12 +59,12 @@ public class UserController {
     public ResponseEntity<String> test(){
         try{
             repository.deleteAll();
-            User temp = repository.save(new User("Kuba","Szadkowski","kszadkowski@wp.pl","123456789", "password"));
-            repository.save(new User("Michal","Zgagacz","mzgagacz@wp.pl","125478923", "password"));
-            repository.save(new User("Marzena","Kwiatkowska","mkwiatkowska@wp.pl","789541223", "password"));
-            repository.save(new User("Jakub","Kucharski","jkucharski@wp.pl","396258147", "password"));
-            repository.save(new User("Filip","Nowak","fnowak@wp.pl","741852293", "password"));
-            repository.save(new User("Adam","Pawlak","apawlak@wp.pl","987564333", "password"));
+            User temp = repository.save(new User("dr inż.","Kuba","Szadkowski","kszadkowski@wp.pl","123456789", "password"));
+            repository.save(new User("dr inż.","Michal","Zgagacz","mzgagacz@wp.pl","125478923", "password"));
+            repository.save(new User("dr inż.","Marzena","Kwiatkowska","mkwiatkowska@wp.pl","789541223", "password"));
+            repository.save(new User("dr inż.","Jakub","Kucharski","jkucharski@wp.pl","396258147", "password"));
+            repository.save(new User("dr inż.","Filip","Nowak","fnowak@wp.pl","741852293", "password"));
+            repository.save(new User("dr inż.","Adam","Pawlak","apawlak@wp.pl","987564333", "password"));
             return new ResponseEntity<>("ok",HttpStatus.OK);
 
         }
@@ -75,7 +76,7 @@ public class UserController {
     public ResponseEntity<List<User>> getUserBySurname(@RequestBody User surname){
         try{
             List<User> temp = repository.findBySurname(surname.getSurname());
-            return new ResponseEntity<>(temp,HttpStatus.FOUND);
+            return new ResponseEntity<>(temp,HttpStatus.OK);
         }
         catch (Exception e){
             return new ResponseEntity<>(null,HttpStatus.INTERNAL_SERVER_ERROR);
@@ -95,7 +96,7 @@ public class UserController {
     public ResponseEntity<List<User>> getUserByEmail(){
         try{
             List<User> temp = repository.findAll();
-            return new ResponseEntity<>(temp,HttpStatus.FOUND);
+            return new ResponseEntity<>(temp,HttpStatus.OK);
         }
         catch (Exception e){
             return new ResponseEntity<>(null,HttpStatus.INTERNAL_SERVER_ERROR);
@@ -104,10 +105,10 @@ public class UserController {
     @PatchMapping("/patchPhone")
     public ResponseEntity<User> patchPhone(@RequestBody User user){
         try{
-            User temp = repository.findByEmail(user.getEmail());
+            User temp = repository.findByUserId(user.getUserId());
             temp.setPhone(user.getPhone());
             repository.save(temp);
-            return new ResponseEntity<>(temp, HttpStatus.ACCEPTED);
+            return new ResponseEntity<>(temp, HttpStatus.OK);
         }
         catch (Exception e){
             return new ResponseEntity<>(null,HttpStatus.INTERNAL_SERVER_ERROR);
@@ -116,10 +117,10 @@ public class UserController {
     @PatchMapping("/patchPassword")
     public ResponseEntity<User> patchPassword(@RequestBody User user){
         try{
-            User temp = repository.findByEmail(user.getEmail());
+            User temp = repository.findByUserId(user.getUserId());
             temp.setPassword(user.getPassword());
             repository.save(temp);
-            return new ResponseEntity<>(temp, HttpStatus.ACCEPTED);
+            return new ResponseEntity<>(temp, HttpStatus.OK);
         }
         catch (Exception e){
             return new ResponseEntity<>(null,HttpStatus.INTERNAL_SERVER_ERROR);
@@ -128,10 +129,10 @@ public class UserController {
     @PatchMapping("/patchSurname")
     public ResponseEntity<User> patchSurname(@RequestBody User user){
         try{
-            User temp = repository.findByEmail(user.getEmail());
+            User temp = repository.findByUserId(user.getUserId());
             temp.setSurname(user.getSurname());
             repository.save(temp);
-            return new ResponseEntity<>(temp, HttpStatus.ACCEPTED);
+            return new ResponseEntity<>(temp, HttpStatus.OK);
         }
         catch (Exception e){
             return new ResponseEntity<>(null,HttpStatus.INTERNAL_SERVER_ERROR);
@@ -140,24 +141,61 @@ public class UserController {
     @PatchMapping("/patchName")
     public ResponseEntity<User> patchName(@RequestBody User user){
         try{
-            User temp = repository.findByEmail(user.getEmail());
+            User temp = repository.findByUserId(user.getUserId());
             temp.setName(user.getName());
             repository.save(temp);
-            return new ResponseEntity<>(temp, HttpStatus.ACCEPTED);
+            return new ResponseEntity<>(temp, HttpStatus.OK);
+        }
+        catch (Exception e){
+            return new ResponseEntity<>(null,HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+    @PatchMapping("/patchRole")
+    public ResponseEntity<User> patchRole(@RequestBody User user){
+        try{
+            System.out.println("ok");
+            User temp = repository.findByUserId(user.getUserId());
+            temp.setRole(user.getRole());
+            repository.save(temp);
+            return new ResponseEntity<>(temp, HttpStatus.OK);
+        }
+        catch (Exception e){
+            return new ResponseEntity<>(null,HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+    @PatchMapping("/patchRoles")
+    public ResponseEntity<User> patchRoles(@RequestBody User user){
+        try{
+            User temp = repository.findByUserId(user.getUserId());
+            temp.setRole(user.getRole());
+            repository.save(temp);
+            return new ResponseEntity<>(temp,HttpStatus.OK);
+        }
+        catch (Exception e){
+            return new ResponseEntity<>(null,HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+    @PatchMapping("/patchTitle")
+    public ResponseEntity<User> patchTitle(@RequestBody User user){
+        try{
+            User temp = repository.findByEmail(user.getEmail());
+            temp.setTitle(user.getTitle());
+            repository.save(temp);
+            return new ResponseEntity<>(temp, HttpStatus.OK);
         }
         catch (Exception e){
             return new ResponseEntity<>(null,HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
     @GetMapping("/getAllSurnames")
-    public ResponseEntity<List<User>> getAllSurnames(){
+    public ResponseEntity<List<String>> getAllSurnames(){
         try{
             List<User> list = repository.findAll();
             List<String> stringList = new LinkedList<>();
             for(User user:list){
                 stringList.add(user.getSurname());
             }
-            return new ResponseEntity<>(list,HttpStatus.ACCEPTED);
+            return new ResponseEntity<>(stringList,HttpStatus.OK);
         }
         catch (Exception e){
             return new ResponseEntity<>(null,HttpStatus.INTERNAL_SERVER_ERROR);
@@ -167,15 +205,25 @@ public class UserController {
     public ResponseEntity<User> patchUser(@RequestBody User user){
         try{
             User temp = repository.findByUserId(user.getUserId());
+            temp.setTitle(user.getTitle());
             temp.setName(user.getName());
             temp.setSurname(user.getSurname());
             temp.setPhone(user.getPhone());
             temp.setEmail(user.getEmail());
             repository.save(temp);
-            return new ResponseEntity<>(temp, HttpStatus.ACCEPTED);
+            return new ResponseEntity<>(temp, HttpStatus.OK);
         }
         catch (Exception e){
             return new ResponseEntity<>(null,HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+    @GetMapping("/getUserById/{id}")
+    public ResponseEntity<User> getUserById(@PathVariable String id){
+        System.out.println(id);
+        try{
+            return new ResponseEntity<>(repository.findByUserId(id),HttpStatus.OK);
+        }catch (Exception e){
+            return new ResponseEntity<>(null,HttpStatus.NOT_FOUND);
         }
     }
 }
