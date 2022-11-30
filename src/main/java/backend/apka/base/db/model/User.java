@@ -9,6 +9,7 @@ public class User {
     @Id
     private String userId;
 
+    private String title;
     private String name;
     private String surname;
     private String email;
@@ -16,7 +17,8 @@ public class User {
     private String role;
     private String password;
 
-    public User(String name, String surname, String email, String phone, String password) {
+    public User(String title,String name, String surname, String email, String phone, String password) {
+        this.title = title;
         this.name = name;
         this.surname = surname;
         this.email = email;
@@ -78,8 +80,15 @@ public class User {
 
     @Override
     public String toString() {
-        return this.name+" "+this.surname+" ma telefon: "+this.phone+", ID:"+this.getUserId();
+        return this.name+" "+this.surname+" ma telefon: "+this.phone+", ID:"+this.getUserId()+", email:"+this.getEmail();
     }
 
 
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
 }
