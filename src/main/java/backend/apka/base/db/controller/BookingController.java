@@ -39,7 +39,7 @@ public class BookingController {
             catch(Exception e){
                 return new ResponseEntity<>(null,HttpStatus.NOT_FOUND);
             }
-            Booking temp = repository.save(new Booking(user,room,booking.getDay(), booking.getMonth(), booking.getYear(), booking.getStartTime(),booking.getTimeCount()));
+            Booking temp = repository.save(new Booking(user,room,booking.getDay(), booking.getMonth(), booking.getYear(), booking.getStartTime(),booking.getEndTime()));
             return new ResponseEntity<>(temp, HttpStatus.CREATED);
 
         }
@@ -52,31 +52,31 @@ public class BookingController {
         try{
             User user = userRepository.findByUserId("638ccf8faead671b3636db3d");
             Room room = roomRepository.findByRoomNumber("102");
-            repository.save(new Booking(user,room,"23","11","2022","10:15",2));
+            repository.save(new Booking(user,room,"23","11","2022","10:15","12:00"));
 
             user = userRepository.findByUserId("638ccf8faead671b3636db3d");
             room = roomRepository.findByRoomNumber("103");
-            repository.save(new Booking(user,room,"24","11","2022","12:15",2));
+            repository.save(new Booking(user,room,"24","11","2022","12:15","14:00"));
 
             user = userRepository.findByUserId("638ccf8faead671b3636db3e");
             room = roomRepository.findByRoomNumber("104");
-            repository.save(new Booking(user,room,"25","11","2022","10:15",2));
+            repository.save(new Booking(user,room,"25","11","2022","10:15","12:00"));
 
             user = userRepository.findByUserId("638ccf8faead671b3636db3e");
             room = roomRepository.findByRoomNumber("5");
-            repository.save(new Booking(user,room,"22","11","2022","8:00",2));
+            repository.save(new Booking(user,room,"22","11","2022","8:15","10:00"));
 
             user = userRepository.findByUserId("638ccf8faead671b3636db3f");
             room = roomRepository.findByRoomNumber("4");
-            repository.save(new Booking(user,room,"22","11","2022","10:15",2));
+            repository.save(new Booking(user,room,"22","11","2022","10:15","12:00"));
 
             user = userRepository.findByUserId("638ccf8faead671b3636db3f");
             room = roomRepository.findByRoomNumber("203");
-            repository.save(new Booking(user,room,"22","11","2022","8:00",2));
+            repository.save(new Booking(user,room,"22","11","2022","8:00","10:00"));
 
             user = userRepository.findByUserId("638ccf8faead671b3636db40");
             room = roomRepository.findByRoomNumber("204");
-            repository.save(new Booking(user,room,"22","11","2022","10:15",2));
+            repository.save(new Booking(user,room,"22","11","2022","10:15","12:00"));
             return new ResponseEntity<>("ok",HttpStatus.ACCEPTED);
         }
         catch (Exception e){

@@ -10,9 +10,9 @@ public class Room {
 
     private String floor;
     private String roomNumber;
-    private String additionInformation;
+    private Info additionInformation;
 
-    public Room(String floor, String roomNumber, String additionInformation) {
+    public Room(String floor, String roomNumber, Info additionInformation) {
         this.floor = floor;
         this.roomNumber = roomNumber;
         this.additionInformation = additionInformation;
@@ -33,11 +33,11 @@ public class Room {
         this.roomNumber = roomNumber;
     }
 
-    public String getAdditionInformation() {
+    public Info getAdditionInformation() {
         return additionInformation;
     }
 
-    public void setAdditionInformation(String additionInformation) {
+    public void setAdditionInformation(Info additionInformation) {
         this.additionInformation = additionInformation;
     }
 

@@ -1,6 +1,7 @@
 package backend.apka.base.db.controller;
 
 
+import backend.apka.base.db.model.Info;
 import backend.apka.base.db.model.Room;
 import backend.apka.base.db.repository.RoomRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,18 +32,18 @@ public class RoomController {
     @PostMapping("/test")
     public ResponseEntity<String> test(){
         try{
-            Room temp = repository.save(new Room("0","3","Sala posiada 16 stanowisk z OS Windows oraz narzędziami do programowania."));
-            repository.save(new Room("0","4","Sala posiada 16 stanowisk z OS Windows oraz narzędziami do grafiki."));
-            repository.save(new Room("0","5","Sala posiada 14 stanowisk z OS Windows oraz narzędziami do programowania."));
-            repository.save(new Room("0","6","Sala posiada 20 stanowisk z OS Windows oraz narzędziami do programowania."));
-            repository.save(new Room("1","101","Sala posiada 16 stanowisk z komputerami Mac oraz narzędziami do programowania."));
-            repository.save(new Room("1","102","Sala posiada 16 stanowisk z komputerami Mac oraz narzędziami do grafiki"));
-            repository.save(new Room("1","103","Sala posiada 16 biurek dwuosobowych, tablice interaktywną oraz tablicę na trójnogu."));
-            repository.save(new Room("1","104","Sala posiada 16 biurek dwuosobowych, tablice interaktywną."));
-            repository.save(new Room("2","201","Sala posiada 16 biurek dwuosobowych, tablice interaktywną"));
-            repository.save(new Room("2","202","Sala posiada 16 stanowisk pomiarowych."));
-            repository.save(new Room("2","203","Sala posiada 10 stanowisk do podstaw fizyki"));
-            repository.save(new Room("2","204","Aula na 200 osób."));
+            Room temp = repository.save(new Room("0","3",new Info("Programowanie",16,"")));
+            repository.save(new Room("0","4",new Info("Programowanie",16,"Windows")));
+            repository.save(new Room("0","5",new Info("Programowanie",16,"Mac")));
+            repository.save(new Room("0","6",new Info("Programowanie",16,"Mac")));
+            repository.save(new Room("1","101",new Info("Programowanie",16,"")));
+            repository.save(new Room("1","102",new Info("Programowanie",16,"")));
+            repository.save(new Room("1","103",new Info("Sala lekcyjna",16,"")));
+            repository.save(new Room("1","104",new Info("Programowanie",16,"")));
+            repository.save(new Room("2","201",new Info("Grafika",16,"")));
+            repository.save(new Room("2","202",new Info("Grafika",16,"")));
+            repository.save(new Room("2","203",new Info("Grafika",16,"")));
+            repository.save(new Room("2","204",new Info("Aula",200,"")));
             return new ResponseEntity<>("Ok", HttpStatus.CREATED);
 
         }

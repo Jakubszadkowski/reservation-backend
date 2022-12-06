@@ -16,16 +16,16 @@ public class Booking {
     private String month;
     private String year;
     private String startTime;
-    private int timeCount;
+    private String endTime;
 
-    public Booking(User user, Room room, String day, String month, String year, String startTime, int timeCount) {
+    public Booking(User user, Room room, String day, String month, String year, String startTime, String endTime) {
         this.user = user;
         this.room = room;
         this.day = day;
         this.month = month;
         this.year = year;
         this.startTime = startTime;
-        this.timeCount = timeCount;
+        this.endTime = endTime;
     }
 
     public User getUser() {
@@ -44,12 +44,12 @@ public class Booking {
         this.room = room;
     }
 
-    public int getTimeCount() {
-        return timeCount;
+    public String getEndTime() {
+        return this.endTime;
     }
 
-    public void setTimeCount(int timeCount) {
-        this.timeCount = timeCount;
+    public void setEndTime(String endTime) {
+        this.endTime = endTime;
     }
 
     public String getBookingId() {
