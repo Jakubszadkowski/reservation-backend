@@ -60,6 +60,8 @@ public class UserController {
         try{
             repository.deleteAll();
             User temp = repository.save(new User("dr inż.","Kuba","Szadkowski","kszadkowski@wp.pl","123456789", "password"));
+            temp.setRole("admin");
+            repository.save(temp);
             repository.save(new User("dr inż.","Michal","Zgagacz","mzgagacz@wp.pl","125478923", "password"));
             repository.save(new User("dr inż.","Marzena","Kwiatkowska","mkwiatkowska@wp.pl","789541223", "password"));
             repository.save(new User("dr inż.","Jakub","Kucharski","jkucharski@wp.pl","396258147", "password"));
@@ -102,18 +104,6 @@ public class UserController {
             return new ResponseEntity<>(null,HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    @PatchMapping("/patchPhone")
-    public ResponseEntity<User> patchPhone(@RequestBody User user){
-        try{
-            User temp = repository.findByUserId(user.getUserId());
-            temp.setPhone(user.getPhone());
-            repository.save(temp);
-            return new ResponseEntity<>(temp, HttpStatus.OK);
-        }
-        catch (Exception e){
-            return new ResponseEntity<>(null,HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
     @PatchMapping("/patchPassword")
     public ResponseEntity<User> patchPassword(@RequestBody User user){
         try{
@@ -126,74 +116,13 @@ public class UserController {
             return new ResponseEntity<>(null,HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    @PatchMapping("/patchSurname")
-    public ResponseEntity<User> patchSurname(@RequestBody User user){
-        try{
-            User temp = repository.findByUserId(user.getUserId());
-            temp.setSurname(user.getSurname());
-            repository.save(temp);
-            return new ResponseEntity<>(temp, HttpStatus.OK);
-        }
-        catch (Exception e){
-            return new ResponseEntity<>(null,HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
-    @PatchMapping("/patchName")
-    public ResponseEntity<User> patchName(@RequestBody User user){
-        try{
-            User temp = repository.findByUserId(user.getUserId());
-            temp.setName(user.getName());
-            repository.save(temp);
-            return new ResponseEntity<>(temp, HttpStatus.OK);
-        }
-        catch (Exception e){
-            return new ResponseEntity<>(null,HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
-    @PatchMapping("/patchRole")
-    public ResponseEntity<User> patchRole(@RequestBody User user){
-        try{
-            System.out.println("ok");
-            User temp = repository.findByUserId(user.getUserId());
-            temp.setRole(user.getRole());
-            repository.save(temp);
-            return new ResponseEntity<>(temp, HttpStatus.OK);
-        }
-        catch (Exception e){
-            return new ResponseEntity<>(null,HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
-    @PatchMapping("/patchRoles")
-    public ResponseEntity<User> patchRoles(@RequestBody User user){
-        try{
-            User temp = repository.findByUserId(user.getUserId());
-            temp.setRole(user.getRole());
-            repository.save(temp);
-            return new ResponseEntity<>(temp,HttpStatus.OK);
-        }
-        catch (Exception e){
-            return new ResponseEntity<>(null,HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
-    @PatchMapping("/patchTitle")
-    public ResponseEntity<User> patchTitle(@RequestBody User user){
-        try{
-            User temp = repository.findByEmail(user.getEmail());
-            temp.setTitle(user.getTitle());
-            repository.save(temp);
-            return new ResponseEntity<>(temp, HttpStatus.OK);
-        }
-        catch (Exception e){
-            return new ResponseEntity<>(null,HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
-    @GetMapping("/getAllSurnames")
-    public ResponseEntity<List<String>> getAllSurnames(){
+    @GetMapping("/getAllNames")
+    public ResponseEntity<List<String>> getAllNames(){
         try{
             List<User> list = repository.findAll();
             List<String> stringList = new LinkedList<>();
             for(User user:list){
-                stringList.add(user.getSurname());
+                stringList.add(user.getTitle()+" "+user.getName()+" "+user.getSurname());
             }
             return new ResponseEntity<>(stringList,HttpStatus.OK);
         }
@@ -204,12 +133,14 @@ public class UserController {
     @PatchMapping("/patchUser")
     public ResponseEntity<User> patchUser(@RequestBody User user){
         try{
+            System.out.println(user);
             User temp = repository.findByUserId(user.getUserId());
             temp.setTitle(user.getTitle());
             temp.setName(user.getName());
             temp.setSurname(user.getSurname());
             temp.setPhone(user.getPhone());
             temp.setEmail(user.getEmail());
+            temp.setRole(user.getRole());
             repository.save(temp);
             return new ResponseEntity<>(temp, HttpStatus.OK);
         }
@@ -219,7 +150,6 @@ public class UserController {
     }
     @GetMapping("/getUserById/{id}")
     public ResponseEntity<User> getUserById(@PathVariable String id){
-        System.out.println(id);
         try{
             return new ResponseEntity<>(repository.findByUserId(id),HttpStatus.OK);
         }catch (Exception e){

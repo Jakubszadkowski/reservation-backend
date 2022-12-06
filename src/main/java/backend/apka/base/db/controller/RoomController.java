@@ -100,4 +100,18 @@ public class RoomController {
             return new ResponseEntity<>(null,HttpStatus.NOT_FOUND);
         }
     }
+    @PatchMapping("/patchRoom")
+    public ResponseEntity<Room> patchRoom(@RequestBody Room room){
+        try{
+            Room temp = repository.findByRoomId(room.getRoomId());
+            temp.setRoomNumber(room.getRoomNumber());
+            temp.setFloor(temp.getFloor());
+            temp.setAdditionInformation(room.getAdditionInformation());
+            repository.save(temp);
+            return new ResponseEntity<>(temp,HttpStatus.OK);
+        }
+        catch (Exception e){
+            return new ResponseEntity<>(null,HttpStatus.NOT_ACCEPTABLE);
+        }
+    }
 }

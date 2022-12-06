@@ -50,31 +50,31 @@ public class BookingController {
     @PostMapping("/test")
     public ResponseEntity<String> test(){
         try{
-            User user = userRepository.findByUserId("63850d31b3934942452d9b4b");
+            User user = userRepository.findByUserId("638ccf8faead671b3636db3d");
             Room room = roomRepository.findByRoomNumber("102");
             repository.save(new Booking(user,room,"23","11","2022","10:15",2));
 
-            user = userRepository.findByUserId("63850d31b3934942452d9b4b");
+            user = userRepository.findByUserId("638ccf8faead671b3636db3d");
             room = roomRepository.findByRoomNumber("103");
             repository.save(new Booking(user,room,"24","11","2022","12:15",2));
 
-            user = userRepository.findByUserId("63850d31b3934942452d9b4b");
+            user = userRepository.findByUserId("638ccf8faead671b3636db3e");
             room = roomRepository.findByRoomNumber("104");
             repository.save(new Booking(user,room,"25","11","2022","10:15",2));
 
-            user = userRepository.findByUserId("63850d31b3934942452d9b4c");
+            user = userRepository.findByUserId("638ccf8faead671b3636db3e");
             room = roomRepository.findByRoomNumber("5");
             repository.save(new Booking(user,room,"22","11","2022","8:00",2));
 
-            user = userRepository.findByUserId("63850d31b3934942452d9b4c");
+            user = userRepository.findByUserId("638ccf8faead671b3636db3f");
             room = roomRepository.findByRoomNumber("4");
             repository.save(new Booking(user,room,"22","11","2022","10:15",2));
 
-            user = userRepository.findByUserId("63850d31b3934942452d9b4d");
+            user = userRepository.findByUserId("638ccf8faead671b3636db3f");
             room = roomRepository.findByRoomNumber("203");
             repository.save(new Booking(user,room,"22","11","2022","8:00",2));
 
-            user = userRepository.findByUserId("63850d31b3934942452d9b4e");
+            user = userRepository.findByUserId("638ccf8faead671b3636db40");
             room = roomRepository.findByRoomNumber("204");
             repository.save(new Booking(user,room,"22","11","2022","10:15",2));
             return new ResponseEntity<>("ok",HttpStatus.ACCEPTED);
@@ -114,10 +114,10 @@ public class BookingController {
             return new ResponseEntity<>(null,HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    @GetMapping("/getAllUserBookings")
-    public ResponseEntity<List<Booking>> getAllUserBookings(@RequestBody User user){
+    @GetMapping("/getAllUserBookings/{id}")
+    public ResponseEntity<List<Booking>> getAllUserBookings(@PathVariable String id){
         try{
-            List<Booking> temp = repository.findByUserUserId(user.getUserId());
+            List<Booking> temp = repository.findByUserUserId(id);
             return new ResponseEntity<>(temp,HttpStatus.OK);
         }
         catch (Exception e){
