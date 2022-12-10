@@ -71,10 +71,10 @@ public class RoomController {
             return new ResponseEntity<>(e.toString(),HttpStatus.NOT_ACCEPTABLE);
         }
     }
-    @GetMapping("/getAllRoomsFromFloor")
-    public ResponseEntity<List<Room>> getAllRoomsFromFloor(@RequestBody Room room){
+    @GetMapping("/getAllRoomsFromFloor/{floor}")
+    public ResponseEntity<List<Room>> getAllRoomsFromFloor(@PathVariable String floor){
         try{
-            List<Room> temp = repository.findByFloor(room.getFloor());
+            List<Room> temp = repository.findByFloor(floor);
             return new ResponseEntity<>(temp, HttpStatus.OK);
 
         }
@@ -92,10 +92,10 @@ public class RoomController {
             return new ResponseEntity<>(null,HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    @GetMapping("/getRoomById")
-    public ResponseEntity<Room> getRoomById(String roomId){
+    @GetMapping("/getRoomById/{id}")
+    public ResponseEntity<Room> getRoomById(@PathVariable String id){
         try{
-            return new ResponseEntity<>(repository.findByRoomId(roomId),HttpStatus.OK);
+            return new ResponseEntity<>(repository.findByRoomId(id),HttpStatus.OK);
         }
         catch (Exception e){
             return new ResponseEntity<>(null,HttpStatus.NOT_FOUND);

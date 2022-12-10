@@ -3,6 +3,7 @@ package backend.apka.base.db.controller;
 import backend.apka.base.db.model.*;
 import backend.apka.base.db.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.aggregation.ArithmeticOperators;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -122,6 +123,16 @@ public class BookingController {
         }
         catch (Exception e){
             return new ResponseEntity<>(null,HttpStatus.NOT_FOUND);
+        }
+    }
+    @GetMapping("/getAllBookingsByRoomId/{id}")
+    public ResponseEntity<List<Booking>> getAllBookingsByRoomId(@PathVariable String id){
+        try{
+            List<Booking> temp = repository.findByRoomRoomId(id);
+            return new ResponseEntity<>(temp,HttpStatus.OK);
+        }catch (Exception e){
+            System.out.println(e);
+            return new ResponseEntity<>(null,HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 }
