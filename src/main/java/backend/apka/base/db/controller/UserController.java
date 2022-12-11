@@ -64,7 +64,7 @@ public class UserController {
             repository.save(temp);
             repository.save(new User("dr inż.","Michal","Zgagacz","mzgagacz@wp.pl","125478923", "password"));
             repository.save(new User("dr inż.","Marzena","Kwiatkowska","mkwiatkowska@wp.pl","789541223", "password"));
-            repository.save(new User("dr inż.","Jakub","Kucharski","jkucharski@wp.pl","396258147", "password"));
+            repository.save(new User("dr inż.","Jakub","Wiśniewski ","jwisniewski@wp.pl","396258147", "password"));
             repository.save(new User("dr inż.","Filip","Nowak","fnowak@wp.pl","741852293", "password"));
             repository.save(new User("dr inż.","Adam","Pawlak","apawlak@wp.pl","987564333", "password"));
             return new ResponseEntity<>("ok",HttpStatus.OK);

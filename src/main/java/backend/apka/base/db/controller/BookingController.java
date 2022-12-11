@@ -24,7 +24,6 @@ public class BookingController {
     @PostMapping("/createBooking")
     public ResponseEntity<Booking> createBooking(@RequestBody Booking booking){
         try{
-            System.out.println(booking);
             User user;
             Room room;
             try{
@@ -41,7 +40,8 @@ public class BookingController {
             catch(Exception e){
                 return new ResponseEntity<>(null,HttpStatus.NOT_FOUND);
             }
-            Booking temp = repository.save(new Booking(user,room,booking.getDay(), booking.getMonth(), booking.getYear(), booking.getStartTime(),booking.getEndTime()));
+            Booking temp = repository.save(new Booking(user,room,booking.getDay(), booking.getMonth(),
+                    booking.getYear(), booking.getStartTime(),booking.getEndTime()));
             return new ResponseEntity<>(temp, HttpStatus.CREATED);
 
         }
@@ -52,31 +52,31 @@ public class BookingController {
     @PostMapping("/test")
     public ResponseEntity<String> test(){
         try{
-            User user = userRepository.findByUserId("638ccf8faead671b3636db3d");
+            User user = userRepository.findByUserId("63962378bf9fe949e485e44a");
             Room room = roomRepository.findByRoomNumber("102");
             repository.save(new Booking(user,room,"09","12","2022","10:15","12:00"));
 
-            user = userRepository.findByUserId("638ccf8faead671b3636db3d");
+            user = userRepository.findByUserId("63962378bf9fe949e485e44a");
             room = roomRepository.findByRoomNumber("103");
             repository.save(new Booking(user,room,"09","12","2022","12:15","14:00"));
 
-            user = userRepository.findByUserId("638ccf8faead671b3636db3e");
+            user = userRepository.findByUserId("63962378bf9fe949e485e44b");
             room = roomRepository.findByRoomNumber("104");
             repository.save(new Booking(user,room,"09","12","2022","10:15","12:00"));
 
-            user = userRepository.findByUserId("638ccf8faead671b3636db3e");
+            user = userRepository.findByUserId("63962378bf9fe949e485e44b");
             room = roomRepository.findByRoomNumber("5");
             repository.save(new Booking(user,room,"09","12","2022","08:15","10:00"));
 
-            user = userRepository.findByUserId("638ccf8faead671b3636db3f");
+            user = userRepository.findByUserId("63962378bf9fe949e485e44b");
             room = roomRepository.findByRoomNumber("4");
             repository.save(new Booking(user,room,"10","12","2022","10:15","12:00"));
 
-            user = userRepository.findByUserId("638ccf8faead671b3636db3f");
+            user = userRepository.findByUserId("63962378bf9fe949e485e44d");
             room = roomRepository.findByRoomNumber("203");
             repository.save(new Booking(user,room,"10","12","2022","08:00","10:00"));
 
-            user = userRepository.findByUserId("638ccf8faead671b3636db40");
+            user = userRepository.findByUserId("63962378bf9fe949e485e44e");
             room = roomRepository.findByRoomNumber("204");
             repository.save(new Booking(user,room,"10","12","2022","10:15","12:00"));
             return new ResponseEntity<>("ok",HttpStatus.ACCEPTED);
