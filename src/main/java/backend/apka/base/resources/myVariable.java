@@ -1,4 +1,4 @@
-package backend.apka.base.db.resources;
+package backend.apka.base.resources;
 
 public class myVariable {
     private  static String  pepper ="fQbAwIedHtRxPHb";

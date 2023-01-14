@@ -1,4 +1,4 @@
-package backend.apka.base.db.controller;
+package backend.apka.base.controller;
 
 import backend.apka.base.db.model.Session;
 import backend.apka.base.db.model.User;
