@@ -5,6 +5,7 @@ import backend.apka.base.db.model.Info;
 import backend.apka.base.db.model.Room;
 import backend.apka.base.db.repository.RoomRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.aggregation.ArithmeticOperators;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,29 +22,34 @@ public class RoomController {
     @PostMapping("/createRoom")
     public ResponseEntity<Room> createRoom(@RequestBody Room room){
         try{
-            Room temp = repository.save(new Room(room.getFloor(),room.getRoomNumber(),room.getAdditionInformation()));
-            return new ResponseEntity<>(temp, HttpStatus.CREATED);
+            Room temp1 = repository.findByRoomNumber(room.getRoomNumber());
+            if(temp1==null){
+                repository.save(new Room(room.getFloor(),room.getRoomNumber(),room.getAdditionInformation()));
+                return new ResponseEntity<>(null, HttpStatus.ACCEPTED);
+            }
+            else {
+                return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+            }
+        }catch (Exception e1){
+            return new ResponseEntity<>(null, HttpStatus.ACCEPTED);
+        }
 
-        }
-        catch (Exception e){
-            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
     }
     @PostMapping("/test")
     public ResponseEntity<String> test(){
         try{
-            Room temp = repository.save(new Room("0","3",new Info("Programowanie",16,"")));
-            repository.save(new Room("0","4",new Info("Programowanie",16,"Windows")));
-            repository.save(new Room("0","5",new Info("Programowanie",16,"Mac")));
-            repository.save(new Room("0","6",new Info("Programowanie",16,"Mac")));
-            repository.save(new Room("1","101",new Info("Programowanie",16,"")));
-            repository.save(new Room("1","102",new Info("Programowanie",16,"")));
-            repository.save(new Room("1","103",new Info("Sala lekcyjna",16,"")));
-            repository.save(new Room("1","104",new Info("Programowanie",16,"")));
-            repository.save(new Room("2","201",new Info("Grafika",16,"")));
-            repository.save(new Room("2","202",new Info("Grafika",16,"")));
-            repository.save(new Room("2","203",new Info("Grafika",16,"")));
-            repository.save(new Room("2","204",new Info("Aula",200,"")));
+            Room temp = repository.save(new Room("0","3",new Info("Programowanie","16","")));
+            repository.save(new Room("0","4",new Info("Programowanie","16","Windows")));
+            repository.save(new Room("0","5",new Info("Programowanie","16","Mac")));
+            repository.save(new Room("0","6",new Info("Programowanie","16","Mac")));
+            repository.save(new Room("1","101",new Info("Programowanie","16","")));
+            repository.save(new Room("1","102",new Info("Programowanie","16","")));
+            repository.save(new Room("1","103",new Info("Sala lekcyjna","16","")));
+            repository.save(new Room("1","104",new Info("Programowanie","16","")));
+            repository.save(new Room("2","201",new Info("Grafika","16","")));
+            repository.save(new Room("2","202",new Info("Grafika","16","")));
+            repository.save(new Room("2","203",new Info("Grafika","16","")));
+            repository.save(new Room("2","204",new Info("Aula","200","")));
             return new ResponseEntity<>("Ok", HttpStatus.CREATED);
 
         }

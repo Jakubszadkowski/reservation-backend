@@ -10,10 +10,10 @@ public class Info {
     private String id;
 
     private String properties;
-    private int count;
+    private String count;
     private String additional;
 
-    public Info(String properties,int count,String additional){
+    public Info(String properties,String count,String additional){
         this.properties=properties;
         this.count=count;
         this.additional=additional;
@@ -28,11 +28,11 @@ public class Info {
         this.properties = properties;
     }
 
-    public int getCount() {
+    public String getCount() {
         return count;
     }
 
-    public void setCount(int count) {
+    public void setCount(String count) {
         this.count = count;
     }
 
